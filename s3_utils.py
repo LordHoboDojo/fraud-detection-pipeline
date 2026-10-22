@@ -7,9 +7,9 @@ import os
 import boto3
 from pathlib import Path
 
-BUCKET      = "fraud-detection-pipeline-408697342341"
-AWS_PROFILE = "ShaunakKul"
-REGION      = "us-east-2"
+BUCKET      = os.environ.get("S3_BUCKET", "your-s3-bucket-name")
+AWS_PROFILE = os.environ.get("AWS_PROFILE_NAME", "default")
+REGION      = os.environ.get("AWS_REGION", "us-east-2")
 
 # S3 key prefixes
 PREFIX_RAW_DATA     = "data/raw/"

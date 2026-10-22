@@ -9,10 +9,10 @@ Usage:
 
 import os, json
 
-os.environ["JAVA_HOME"] = (
-    "/Users/shaunakkulkarni/Library/Java/JavaVirtualMachines/ms-17.0.17/Contents/Home"
-)
-os.environ["PATH"] = os.environ["JAVA_HOME"] + "/bin:" + os.environ.get("PATH", "")
+# Set JAVA_HOME if not already configured in your environment
+# e.g. export JAVA_HOME=/path/to/java17
+if "JAVA_HOME" in os.environ:
+    os.environ["PATH"] = os.environ["JAVA_HOME"] + "/bin:" + os.environ.get("PATH", "")
 
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
@@ -22,7 +22,7 @@ from pyspark.sql.types import (
 )
 from pyspark.ml import PipelineModel
 
-KAFKA_BOOTSTRAP = "b-1.fraudpipelinekafka.vdd1z0.c4.kafka.us-east-2.amazonaws.com:9092,b-2.fraudpipelinekafka.vdd1z0.c4.kafka.us-east-2.amazonaws.com:9092"
+KAFKA_BOOTSTRAP = os.environ.get("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")
 KAFKA_TOPIC     = "fraud-transactions"
 MODEL_PATH      = os.environ.get("MODEL_PATH",   "models/fraud_gbt")
 LOOKUPS_PATH    = os.environ.get("LOOKUPS_PATH", "data/lookups")
@@ -195,11 +195,11 @@ output = (
     )
 )
 
-REDSHIFT_HOST = "fraud-pipeline-redshift.cj6sggo2xcoh.us-east-2.redshift.amazonaws.com"
-REDSHIFT_PORT = 5439
-REDSHIFT_DB   = "frauddb"
-REDSHIFT_USER = "fraudadmin"
-REDSHIFT_PASS = "FraudPipeline2024!"
+REDSHIFT_HOST = os.environ.get("REDSHIFT_HOST", "your-cluster.region.redshift.amazonaws.com")
+REDSHIFT_PORT = int(os.environ.get("REDSHIFT_PORT", "5439"))
+REDSHIFT_DB   = os.environ.get("REDSHIFT_DB",   "frauddb")
+REDSHIFT_USER = os.environ.get("REDSHIFT_USER", "fraudadmin")
+REDSHIFT_PASS = os.environ.get("REDSHIFT_PASS", "")
 
 def write_to_redshift(batch_df, batch_id):
     """Write each micro-batch to Redshift via JDBC."""

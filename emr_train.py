@@ -12,7 +12,7 @@ from pyspark.ml.feature import VectorAssembler, StandardScaler
 from pyspark.ml.classification import GBTClassifier
 from pyspark.ml.evaluation import BinaryClassificationEvaluator
 
-S3_BUCKET    = "fraud-detection-pipeline-408697342341"
+S3_BUCKET    = os.environ.get("S3_BUCKET", "your-s3-bucket-name")
 DATA_PATH    = f"s3://{S3_BUCKET}/data/cleaned/cleaned_fraud.parquet"
 MODEL_PATH   = "/user/hadoop/models/fraud_gbt"
 LOOKUPS_PATH = "/user/hadoop/data/lookups"

@@ -6,7 +6,7 @@ Run: python3 dashboard.py
 Visit: http://<emr-public-ip>:5000
 """
 
-import subprocess, threading, time, json
+import os, subprocess, threading, time, json
 from datetime import datetime, timezone
 from flask import Flask, jsonify
 import redshift_connector
@@ -14,8 +14,11 @@ import redshift_connector
 app = Flask(__name__, static_folder="static")
 
 REDSHIFT = dict(
-    host="fraud-pipeline-redshift.cj6sggo2xcoh.us-east-2.redshift.amazonaws.com",
-    port=5439, database="frauddb", user="fraudadmin", password="FraudPipeline2024!",
+    host=os.environ.get("REDSHIFT_HOST", "your-cluster.region.redshift.amazonaws.com"),
+    port=int(os.environ.get("REDSHIFT_PORT", "5439")),
+    database=os.environ.get("REDSHIFT_DB",   "frauddb"),
+    user=os.environ.get("REDSHIFT_USER", "fraudadmin"),
+    password=os.environ.get("REDSHIFT_PASS", ""),
 )
 PRODUCER_CMD = [
     "python3", "/home/hadoop/kafka_producer.py",

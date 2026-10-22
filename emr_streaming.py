@@ -20,18 +20,18 @@ from pyspark.sql.types import (
 )
 from pyspark.ml import PipelineModel
 
-KAFKA_BOOTSTRAP = "b-1.fraudpipelinekafka.vdd1z0.c4.kafka.us-east-2.amazonaws.com:9092,b-2.fraudpipelinekafka.vdd1z0.c4.kafka.us-east-2.amazonaws.com:9092"
-KAFKA_TOPIC     = "fraud-transactions"
-MODEL_PATH      = "/user/hadoop/models/fraud_gbt"       # HDFS
-LOOKUPS_PATH    = "/user/hadoop/data/lookups"            # HDFS
-META_LOCAL      = "/home/hadoop/fraud_gbt_metadata.json" # local on master
+KAFKA_BOOTSTRAP = os.environ.get("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")
+KAFKA_TOPIC     = os.environ.get("KAFKA_TOPIC", "fraud-transactions")
+MODEL_PATH      = os.environ.get("MODEL_PATH",    "/user/hadoop/models/fraud_gbt")   # HDFS
+LOOKUPS_PATH    = os.environ.get("LOOKUPS_PATH",  "/user/hadoop/data/lookups")       # HDFS
+META_LOCAL      = os.environ.get("META_LOCAL",    "/home/hadoop/fraud_gbt_metadata.json")
 REF_EPOCH_SECS  = 1512000000
 
-REDSHIFT_HOST = "fraud-pipeline-redshift.cj6sggo2xcoh.us-east-2.redshift.amazonaws.com"
-REDSHIFT_PORT = 5439
-REDSHIFT_DB   = "frauddb"
-REDSHIFT_USER = "fraudadmin"
-REDSHIFT_PASS = "FraudPipeline2024!"
+REDSHIFT_HOST = os.environ.get("REDSHIFT_HOST", "your-cluster.region.redshift.amazonaws.com")
+REDSHIFT_PORT = int(os.environ.get("REDSHIFT_PORT", "5439"))
+REDSHIFT_DB   = os.environ.get("REDSHIFT_DB",   "frauddb")
+REDSHIFT_USER = os.environ.get("REDSHIFT_USER", "fraudadmin")
+REDSHIFT_PASS = os.environ.get("REDSHIFT_PASS", "")
 
 with open(META_LOCAL) as f:
     meta = json.load(f)
