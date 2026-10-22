@@ -7,6 +7,7 @@ Usage:
 """
 
 import json
+import os
 import time
 import argparse
 import math
@@ -14,7 +15,7 @@ import math
 from kafka import KafkaProducer
 import pandas as pd
 
-KAFKA_BOOTSTRAP = "b-1.fraudpipelinekafka.vdd1z0.c4.kafka.us-east-2.amazonaws.com:9092,b-2.fraudpipelinekafka.vdd1z0.c4.kafka.us-east-2.amazonaws.com:9092"
+KAFKA_BOOTSTRAP = os.environ.get("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")
 PARQUET_PATH    = "data/cleaned_fraud.parquet"
 
 def make_producer():
