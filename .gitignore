@@ -1,0 +1,25 @@
+# Data & models (too large for git)
+data/
+models/
+*.parquet
+*.csv
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+
+# IDE
+.idea/
+.vscode/
+
+# Claude
+.claude/
+
+# Keys & secrets
+*.pem
+.env
+
+# Interview guide (personal)
+INTERVIEW_STUDY_GUIDE.md
